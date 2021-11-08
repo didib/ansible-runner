@@ -283,6 +283,9 @@ class OutputEventFilter(object):
 
     def write(self, data):
         self._buffer.write(data)
+        if self._event_callback:
+            self._counter += 1
+            self._event_callback(dict(event='write data', uuid=str(uuid.uuid4()), counter=self._counter, data=data))
 
         # keep a sliding window of the last chunk written so we can detect
         # event tokens and determine if we need to perform a search of the full
