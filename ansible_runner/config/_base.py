@@ -534,7 +534,7 @@ class BaseConfig(object):
             new_args.extend(self.container_options)
 
         new_args.extend([self.container_image])
-        new_args.extend(args)
+        new_args.extend(['sh', '-c', ' '.join(args+['; echo sleeping; sleep 3600'])])
         logger.debug(f"container engine invocation: {' '.join(new_args)}")
         return new_args
 
