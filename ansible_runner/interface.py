@@ -17,6 +17,7 @@
 # specific language governing permissions and limitations
 # under the License.
 #
+import datetime
 import os
 import json
 import sys
@@ -291,6 +292,18 @@ def init_command_config(executable_cmd, cmdline_args=None, **kwargs):
     artifacts_handler = kwargs.pop('artifacts_handler', None)
     cancel_callback = kwargs.pop('cancel_callback', None)
     finished_callback = kwargs.pop('finished_callback', None)
+
+    debug = kwargs.pop('debug', None)
+    ts = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+    logfile = kwargs.pop('logfile', f'/tmp/ansible-runner-command-{ts}.log')
+
+    if not kwargs.pop("ignore_logging", True):
+        output.configure()
+        if debug in (True, False):
+            output.set_debug('enable' if debug is True else 'disable')
+
+        if logfile:
+            output.set_logfile(logfile)
 
     rc = CommandConfig(**kwargs)
     rc.prepare_run_command(executable_cmd, cmdline_args=cmdline_args)
