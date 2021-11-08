@@ -73,6 +73,7 @@ class CommandConfig(BaseConfig):
             self.runner_mode = 'pexpect'
 
     def prepare_run_command(self, executable_cmd, cmdline_args=None):
+        logger.debug(f'prepare_run_command started: {executable_cmd} {cmdline_args}')
         self.executable_cmd = executable_cmd
         self.cmdline_args = cmdline_args
 
